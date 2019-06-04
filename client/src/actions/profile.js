@@ -1,18 +1,22 @@
-import axios from "axios";
-import { setAlert } from "./alert";
+import axios from 'axios';
+import { setAlert } from './alert';
 
 import {
   GET_PROFILE,
   PROFILE_ERROR,
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
-  GET_PROFILES
-} from "./types";
+  GET_PROFILES,
+  SEARCH_PROFILES,
+  CLEAR_PROFILES,
+  ADD_FOLLOWER,
+  REMOVE_FOLLOWER
+} from './types';
 
 // get current users profile
 export const getCurrentProfile = () => async dispatch => {
   try {
-    const res = await axios.get("/api/profile/me");
+    const res = await axios.get('/api/profile/me');
 
     dispatch({
       type: GET_PROFILE,
@@ -29,12 +33,34 @@ export const getCurrentProfile = () => async dispatch => {
   }
 };
 
-//Get all profiles
-export const getProfiles = () => async dispatch => {
-  dispatch({ type: CLEAR_PROFILE });
-
+//Search profiles by name
+export const searchProfiles = search => async dispatch => {
+  dispatch({ type: CLEAR_PROFILES });
   try {
-    const res = await axios.get("/api/profile");
+    const res = await axios.get(`/api/search/profiles/q=${search}`);
+
+    dispatch({
+      type: SEARCH_PROFILES,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+  }
+};
+
+//Get all profiles
+export const getProfiles = (page, perPage) => async dispatch => {
+  if (page === 1) {
+    dispatch({ type: CLEAR_PROFILES });
+  }
+  try {
+    const res = await axios.get(`/api/profile?page=${page}&perPage=${perPage}`);
 
     dispatch({
       type: GET_PROFILES,
@@ -53,6 +79,9 @@ export const getProfiles = () => async dispatch => {
 
 //Get profile by ID
 export const getProfileById = userId => async dispatch => {
+  dispatch({
+    type: CLEAR_PROFILE
+  });
   try {
     const res = await axios.get(`/api/profile/user/${userId}`);
 
@@ -80,11 +109,11 @@ export const createProfile = (
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     };
 
-    const res = await axios.post("/api/profile", formData, config);
+    const res = await axios.post('/api/profile', formData, config);
 
     dispatch({
       type: GET_PROFILE,
@@ -92,11 +121,11 @@ export const createProfile = (
     });
 
     dispatch(
-      setAlert(edit ? "Profil je updejtan " : "Profil napravljen", "success")
+      setAlert(edit ? 'Profil je updejtan ' : 'Profil napravljen', 'success')
     );
 
     if (!edit) {
-      history.push("/dashboard");
+      history.push('/dashboard');
     }
   } catch (err) {
     dispatch({
@@ -110,9 +139,9 @@ export const createProfile = (
 };
 
 export const deleteAccount = () => async dispatch => {
-  if (window.confirm("Da li ste sigurni da želite izbrisati svoj account?")) {
+  if (window.confirm('Da li ste sigurni da želite izbrisati svoj account?')) {
     try {
-      await axios.delete("api/profile");
+      await axios.delete('api/profile');
 
       dispatch({
         type: CLEAR_PROFILE
@@ -121,12 +150,52 @@ export const deleteAccount = () => async dispatch => {
         type: ACCOUNT_DELETED
       });
 
-      dispatch(setAlert("Your account has been permanantly deleted"));
+      dispatch(setAlert('Your account has been permanantly deleted'));
     } catch (err) {
       dispatch({
         type: PROFILE_ERROR,
         payload: { mgs: err.response.statusText, status: err.response.status }
       });
     }
+  }
+};
+
+//Add follower
+export const addFollower = id => async dispatch => {
+  try {
+    const res = await axios.put(`/api/profile/follow/${id}`);
+    dispatch({
+      type: ADD_FOLLOWER,
+      payload: { id, profile: res.data }
+    });
+    dispatch(setAlert('You are now following this user!', 'success'));
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+  }
+};
+
+//Remove follower
+export const removeFollower = id => async dispatch => {
+  try {
+    const res = await axios.put(`/api/profile/unfollow/${id}`);
+    dispatch({
+      type: REMOVE_FOLLOWER,
+      payload: { id, profile: res.data }
+    });
+    dispatch(setAlert('You stopped following this user!', 'success'));
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
   }
 };

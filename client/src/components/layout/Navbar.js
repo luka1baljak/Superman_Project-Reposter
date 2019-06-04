@@ -4,24 +4,36 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+const Navbar = ({ auth: { user, isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <ul>
       <li>
-        <Link to="/profiles">Profili</Link>
+        {user && (
+          <Link to={`/profile/${user._id}`}>
+            {user && (
+              <img
+                src={`/${user.avatar}`}
+                alt=""
+                className="round-img mala-slika"
+              />
+            )}
+            &nbsp;Moj profil
+          </Link>
+        )}
       </li>
       <li>
-        <Link to="/posts">Main feed</Link>
+        <Link to="/profiles">Korisnici</Link>
       </li>
       <li>
-        <Link to="/dashboard">
-          My feed
-        </Link>
+        <Link to="/posts">Glavni feed</Link>
+      </li>
+      <li>
+        <Link to="/dashboard">Moj feed</Link>
       </li>
       <li>
         <a onClick={logout} href="#!">
           <i className="fas fa-sign-out-alt" />{" "}
-          <span className="hide-sm">Logout</span>
+          <span className="hide-sm">Odjavi se</span>
         </a>
       </li>
     </ul>
@@ -30,16 +42,16 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const guestLinks = (
     <ul>
       <li>
-        <Link to="/posts">Main feed</Link>
+        <Link to="/posts">Glavni feed</Link>
       </li>
       <li>
-        <Link to="/profiles">Profili</Link>
+        <Link to="/profiles">Korisnici</Link>
       </li>
       <li>
-        <Link to="/register">Register</Link>
+        <Link to="/register">Registriraj se</Link>
       </li>
       <li>
-        <Link to="/login">Login</Link>
+        <Link to="/login">Prijavi se</Link>
       </li>
     </ul>
   );
@@ -48,7 +60,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     <nav className="navbar bg-dark">
       <h1>
         <Link to="/">
-          <i className="fas fa-retweet" /> The Art Of Repost
+          <i className="fas fa-retweet" /> Reposter
         </Link>
       </h1>
       {!loading && (

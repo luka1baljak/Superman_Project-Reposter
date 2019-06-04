@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const mongoosePaginate = require("mongoose-paginate");
 
 const ProfileSchema = new Schema({
   user: {
@@ -31,6 +32,12 @@ const ProfileSchema = new Schema({
       user: {
         type: Schema.Types.ObjectId,
         ref: "users"
+      },
+      name: {
+        type:String
+      },
+      avatar:{
+        type:String
       }
     }
   ],
@@ -39,6 +46,12 @@ const ProfileSchema = new Schema({
       user: {
         type: Schema.Types.ObjectId,
         ref: "users"
+      },
+      name: {
+        type:String
+      },
+      avatar:{
+        type:String
       }
     }
   ],
@@ -54,5 +67,6 @@ const ProfileSchema = new Schema({
     }
   }
 });
+ProfileSchema.plugin(mongoosePaginate);
 
 module.exports = Profile = mongoose.model("profile", ProfileSchema);

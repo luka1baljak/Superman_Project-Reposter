@@ -42,12 +42,10 @@ const CreateProfile = ({ createProfile, history }) => {
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Create Your Profile</h1>
+      <h1 className="large text-primary">Izradi svoj profil</h1>
       <p className="lead">
-        <i className="fas fa-user" /> Let's get some information to make your
-        profile stand out
+        Podatci nisu obavezni. <span className="upute">Samo potvrdite spremanje praznih podataka.</span>
       </p>
-      <small>* = required field</small>
       <form className="form" onSubmit={e => onSubmit(e)}>
         <div className="form-group">
           <input
@@ -57,9 +55,6 @@ const CreateProfile = ({ createProfile, history }) => {
             value={datum_rodjenja}
             onChange={e => onChange(e)}
           />
-          <small className="form-text">
-            Could be your own company or one you work for
-          </small>
         </div>
         <div className="form-group">
           <input
@@ -69,9 +64,6 @@ const CreateProfile = ({ createProfile, history }) => {
             value={broj_telefona}
             onChange={e => onChange(e)}
           />
-          <small className="form-text">
-            Could be your own or a company website
-          </small>
         </div>
         <div className="form-group">
           <input
@@ -90,7 +82,6 @@ const CreateProfile = ({ createProfile, history }) => {
             value={životni_moto}
             onChange={e => onChange(e)}
           />
-          <small className="form-text">Tell us a little about yourself</small>
         </div>
 
         <div className="form-group">
@@ -114,7 +105,7 @@ const CreateProfile = ({ createProfile, history }) => {
           >
             Društvene mreže
           </button>
-          <span>Optional</span>
+          <span className="upute">Nije obavezno</span>
         </div>
 
         {displaySocialInputs && (

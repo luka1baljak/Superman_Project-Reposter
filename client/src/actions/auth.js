@@ -33,17 +33,21 @@ export const loadUser = () => async dispatch => {
 };
 
 //Register User
-export const register = ({ name, email, password }) => async dispatch => {
-  const config = {
-    headers: {
-      "content-type": "application/json"
-    }
-  };
-
-  const body = JSON.stringify({ name, email, password });
+export const register = ({
+  name,
+  email,
+  password,
+  avatar
+}) => async dispatch => {
+  const fd = new FormData();
+  fd.append("name", name);
+  fd.append("email", email);
+  fd.append("password", password);
+  fd.append("avatar", avatar);
+  //const body = JSON.stringify({ name, email, password,avatar});
 
   try {
-    const res = await axios.post("/api/users", body, config);
+    const res = await axios.post("/api/users", fd);
 
     dispatch({
       type: REGISTER_SUCCESS,
@@ -71,7 +75,6 @@ export const login = (email, password) => async dispatch => {
       "Content-Type": "application/json"
     }
   };
-
   const body = JSON.stringify({ email, password });
 
   try {

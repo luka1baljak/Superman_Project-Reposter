@@ -1,31 +1,31 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const auth = require("../../middleware/auth");
-const Profile = require("../../models/Profile");
-const User = require("../../models/User");
+const auth = require('../../middleware/auth');
+const Profile = require('../../models/Profile');
+const User = require('../../models/User');
 //const { check, validationResult } = require("express-validator/check");
 
 //GET api/profile/me route - Profile trenutnog usera
-router.get("/me", auth, async (req, res) => {
+router.get('/me', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ user: req.user.id }).populate(
-      "user",
-      ["name", "avatar"]
+      'user',
+      ['name', 'avatar']
     );
 
     if (!profile) {
-      return res.status(400).json({ msg: "Ovaj user name profil" });
+      return res.status(400).json({ msg: 'Ovaj user nema profil' });
     }
 
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server error");
+    res.status(500).send('Server error');
   }
 });
 
 //POST api/profile - stvaranje i updateanje user profila
-router.post("/", auth, async (req, res) => {
+router.post('/', auth, async (req, res) => {
   //destruktuiranje podataka
   const {
     datum_rodjenja,
@@ -37,7 +37,6 @@ router.post("/", auth, async (req, res) => {
     twitter,
     facebook
   } = req.body;
-
   //profileFields - prazan objekt
   const profileFields = {};
   profileFields.user = req.user.id;
@@ -47,7 +46,7 @@ router.post("/", auth, async (req, res) => {
   if (životni_moto) profileFields.životni_moto = životni_moto;
   if (privatno) {
     profileFields.privatno = true;
-  }else{
+  } else {
     profileFields.privatno = false;
   }
 
@@ -57,15 +56,9 @@ router.post("/", auth, async (req, res) => {
   if (twitter) profileFields.social.twitter = twitter;
   if (facebook) profileFields.social.facebook = facebook;
 
-  //Iz stringa dobiti array riječi razdijeljeni zarezom i bez spaceova
-  /*if (skills) {
-    profileFields.skills = skills.split(",").map(skill => skill.trim());
-  }*/
-
   try {
     //Nadji profil po request user.id
     let profile = await Profile.findOne({ user: req.user.id });
-
     //Ako profil vec postoji - updateaj ga
     if (profile) {
       profile = await Profile.findOneAndUpdate(
@@ -83,92 +76,105 @@ router.post("/", auth, async (req, res) => {
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 //GET api/profile - nadji sve profile
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const profiles = await Profile.find({ privatno:false }).populate("user", ["name", "avatar"]);
+    const { page, perPage } = req.query;
+    const options = {
+      sort: { date: -1 },
+      populate: { path: 'user', select: ['name', 'avatar'] },
+      page: parseInt(page, 10) || 1,
+      limit: parseInt(perPage, 10) || 10
+    };
+
+    const profiles = await Profile.paginate({ privatno: false }, options);
+    //const profiles2 = await Profile.find({ privatno:false }).populate("user", ["name", "avatar"]);
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 //GET api/profile/user/:user_id - nadji profil po user_id-u
-router.get("/user/:user_id", async (req, res) => {
+router.get('/user/:user_id', async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.params.user_id
-    }).populate("user", ["name", "avatar"]);
+    }).populate('user', ['name', 'avatar']);
 
-    if (!profile) return res.status(400).json({ msg: "Profil ne postoji" });
+    if (!profile) return res.status(400).json({ msg: 'Profil ne postoji' });
 
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    if (err.kind == "ObjectId") {
-      return res.status(400).json({ msg: "Profil ne postoji" });
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({ msg: 'Profil ne postoji' });
     }
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 //DELETE api/profile - brise profil i usera
-router.delete("/", auth, async (req, res) => {
+router.delete('/', auth, async (req, res) => {
   try {
     //Izbrise profil
     await Profile.findOneAndRemove({ user: req.user.id });
     //Izbrise Usera
     await User.findOneAndRemove({ _id: req.user.id });
 
-    res.json({ msg: "User izbrisan" });
+    res.json({ msg: 'User izbrisan' });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
-
 
 //Followanje
 //PUT api/profile/follow/:id - Followanje profila usera /
 //User koji followa dobije zapis u following polje, a user kojeg se followa dobije zapis u followers polje
-router.put("/follow/:id", auth, async (req, res) => {
+router.put('/follow/:id', auth, async (req, res) => {
   try {
     const followed_profile = await Profile.findById(req.params.id);
     const following_profile = await Profile.findOne({ user: req.user.id });
-    
+
     if (
       followed_profile.followers.filter(follower => follower.id == req.user.id)
         .length > 0
     ) {
       return res
         .status(400)
-        .json({ msg: "You are already following that user!" });
+        .json({ msg: 'You are already following that user!' });
     }
 
-    followed_profile.followers.unshift(req.user.id);
-    following_profile.following.unshift(followed_profile.user.id);
+    const followed_user = await User.findById(followed_profile.user._id).select(
+      '-password -email'
+    );
+    const following_user = await User.findById(req.user.id).select(
+      '-password -email'
+    );
 
-    //console.log(following_profile);
+    followed_profile.followers.unshift(following_user);
+    following_profile.following.unshift(followed_user);
 
     await followed_profile.save();
     await following_profile.save();
 
-    res.json(followed_profile.followers);
+    res.json(followed_profile);
   } catch (err) {
     console.error(err.message);
-    if (err.kind === "ObjectId") {
-      return res.status(404).json({ msg: "Ne postoji taj user" });
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Ne postoji taj user' });
     }
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
-router.put("/unfollow/:id", auth, async (req, res) => {
+router.put('/unfollow/:id', auth, async (req, res) => {
   try {
     const followed_profile = await Profile.findById(req.params.id);
 
@@ -179,7 +185,7 @@ router.put("/unfollow/:id", auth, async (req, res) => {
       followed_profile.followers.filter(follower => follower.id == req.user.id)
         .length === 0
     ) {
-      return res.status(400).json({ msg: "You arent following that user!" });
+      return res.status(400).json({ msg: 'You arent following that user!' });
     }
 
     //Get remove index
@@ -187,32 +193,24 @@ router.put("/unfollow/:id", auth, async (req, res) => {
       .map(follower => follower.id.toString())
       .indexOf(followed_profile.user.toString());
 
-    //console.log(typeof following_profile.following[0].id);
-    //console.log(typeof followed_profile.user);
-
     const removeIndex2 = followed_profile.followers
       .map(followed => followed.id.toString())
       .indexOf(req.user.id);
 
-    following_profile.following.splice(removeIndex);
-    followed_profile.followers.splice(removeIndex2);
-
-    //console.log(followed_profile);
-    //console.log(following_profile);
+    following_profile.following.splice(removeIndex, 1);
+    followed_profile.followers.splice(removeIndex2, 1);
 
     await followed_profile.save();
     await following_profile.save();
 
-    res.json(followed_profile.followers);
+    res.json(followed_profile);
   } catch (err) {
     console.error(err.message);
-    if (err.kind === "ObjectId") {
-      return res.status(404).json({ msg: "Ne postoji taj profile" });
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Ne postoji taj profile' });
     }
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
-
-
 
 module.exports = router;

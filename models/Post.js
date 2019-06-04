@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const mongoosePaginate = require("mongoose-paginate");
 
 const PostSchema = new Schema({
   user: {
@@ -35,7 +36,7 @@ const PostSchema = new Schema({
     {
       type: String
     }
-],
+  ],
   likes: [
     {
       user: {
@@ -71,5 +72,7 @@ const PostSchema = new Schema({
     default: Date.now
   }
 });
-
+PostSchema.plugin(mongoosePaginate);
+//Stvaranje indexa za pretraživanje postova
+//PostSchema.index({ hashlink: "array" });
 module.exports = Post = mongoose.model("post", PostSchema);

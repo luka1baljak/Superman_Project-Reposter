@@ -15,9 +15,12 @@ app.get("/", (req, res) => {
 
 //Definiranje Routesa
 //Middleware za profile pictures
-app.use('/uploads',express.static('uploads'));
+app.use("/uploads", express.static("uploads"));
 //Middleware za dodavanje api/users na sve routeove za usere
 app.use("/api/users", require("./routes/api/users"));
+
+//Middleware za search
+app.use("/api/search", require("./routes/api/search"));
 
 //Middleware za dodavanje api/auth na sve routeove za authentikaciju
 app.use("/api/auth", require("./routes/api/auth"));

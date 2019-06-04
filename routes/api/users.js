@@ -7,6 +7,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const multer = require("multer");
+const auth = require("../../middleware/auth");
 
 //Profile picture prilikom registracije
 const storage = multer.diskStorage({
@@ -80,6 +81,76 @@ router.post(
       const salt = await bcrypt.genSalt(10);
 
       user.password = await bcrypt.hash(password, salt);
+
+      await user.save();
+
+      //Returnat jsonwebtoken - da se odma login
+      //Payload sa userovim id-om
+      const payload = {
+        user: {
+          id: user.id
+        }
+      };
+
+      jwt.sign(
+        payload,
+        config.get("jwtSecret"), //secret
+        { expiresIn: 360000 }, //optional expiracija
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token });
+        }
+      );
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
+    }
+  }
+);
+//Promjena userovih podataka
+//Put request to api/users
+router.put(
+  "/",
+  [
+    upload.single("avatar"),
+    auth,
+    check("name", "Morate ispuniti polje za Ime") //Ime je potrebno
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req); //errori
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() }); //errori
+    }
+
+    //Da li postoji user ili njegov email
+    try {
+      let avatar;
+      let userFields;
+      if (req.file) {
+        avatar = req.file.path;
+        userFields = { ...req.user, name: req.body.name, avatar: avatar };
+        await Post.update(
+          { user: req.user.id },
+          { name: req.body.name, avatar: avatar },
+          { multi: true }
+        );
+      } else {
+        userFields = { ...req.user, name: req.body.name };
+        await Post.update(
+          { user: req.user.id },
+          { name: req.body.name },
+          { multi: true }
+        );
+      }
+
+      const user = await User.findByIdAndUpdate(
+        { _id: req.user.id },
+        { $set: userFields },
+        { new: true }
+      );
 
       await user.save();
 

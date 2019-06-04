@@ -1,13 +1,13 @@
-import React, { Fragment, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { login } from "../../actions/auth";
+import React, { Fragment, useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { login } from '../../actions/auth';
 
 const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
-    email: "",
-    password: ""
+    email: '',
+    password: ''
   });
 
   const { email, password } = formData;
@@ -23,43 +23,41 @@ const Login = ({ login, isAuthenticated }) => {
   //Redirect if user is authenticated
 
   if (isAuthenticated) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to='/firstlogin' />;
   }
 
   return (
     <Fragment>
-      
-      <h1 className="large text-primary">Sign In</h1>
-      <p className="lead">
-        <i className="fas fa-user" /> SIgn Into Your Account
+      <h1 className='large text-primary'>Prijava</h1>
+      <p className='lead'>
+        <i className='fas fa-user' /> Prijavi se
       </p>
-      <form className="form" onSubmit={e => onSubmit(e)}>
-        <div className="form-group">
+      <form className='form' onSubmit={e => onSubmit(e)}>
+        <div className='form-group'>
           <input
-            type="email"
-            placeholder="Email Address"
-            name="email"
+            type='email'
+            placeholder='Email Address'
+            name='email'
             value={email}
             onChange={e => onChange(e)}
             required
           />
         </div>
-        <div className="form-group">
+        <div className='form-group'>
           <input
-            type="password"
-            placeholder="Password"
-            name="password"
+            type='password'
+            placeholder='Password'
+            name='password'
             value={password}
             onChange={e => onChange(e)}
-            minLength="4"
+            minLength='4'
           />
         </div>
-        <input type="submit" className="btn btn-primary" value="Login" />
+        <input type='submit' className='btn btn-primary' value='Login' />
       </form>
-      <p className="my-1">
-        Don't have an account? <Link to="/register">Sign Up</Link>
+      <p className='my-1'>
+        Nemate korisnički račun? <Link to='/register'>Registriraj se</Link>
       </p>
-  
     </Fragment>
   );
 };

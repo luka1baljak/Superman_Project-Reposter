@@ -1,8 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
 /* Global Styles */
-
-/* Font */
-@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
-
 :root {
   --primary-color: #723dbe;
   --dark-color: #343a40;
@@ -18,7 +16,7 @@
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   background-color: #fff;
@@ -59,6 +57,33 @@ img {
   font-size: 3rem;
   line-height: 1.2;
   margin-bottom: 1rem;
+}
+/* Update*/
+.imglink-size {
+  height: 500px;
+  width: 100%;
+}
+.mala-slika {
+  height: 18px;
+  width: 18px;
+}
+/* Dizajn za izbor slike i file input */
+.med-slika {
+  height: 72px;
+  width: 72px;
+}
+.izbor-slike {
+  margin-bottom: 2%;
+}
+.boja-prsta {
+  color: lightskyblue;
+}
+.sz {
+  height: 72px;
+  width: 72px;
+}
+.upute {
+  color: #c4c4c4;
 }
 
 .lead {
@@ -222,6 +247,9 @@ img {
 .round-img {
   border-radius: 50%;
 }
+.round-img-size {
+  width: 45%;
+}
 
 .line {
   height: 1px;
@@ -240,8 +268,14 @@ img {
 }
 
 /* Forms */
+
 .form .form-group {
   margin: 1.2rem 0;
+}
+
+.form:active {
+  border-color: #723dbe;
+  box-shadow: 0 0 0 0.2rem rgba(114, 61, 190, 0.25);
 }
 
 .form .form-text {
@@ -250,20 +284,29 @@ img {
   color: #888;
 }
 
-.form input[type="text"],
-.form input[type="email"],
-.form input[type="password"],
-.form input[type="date"],
+.form-control {
+  border-radius: 25px 50px;
+}
+
+.form-control:focus {
+  border-color: #723dbe;
+}
+
+.form input[type='text'],
+.form input[type='email'],
+.form input[type='password'],
+.form input[type='date'],
 .form select,
 .form textarea {
   display: block;
   width: 100%;
   padding: 0.4rem;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   border: 1px solid #ccc;
+  font-family: 'Poppins', sans-serif;
 }
 
-.form input[type="submit"],
+.form input[type='submit'],
 button {
   font: inherit;
 }
@@ -338,7 +381,7 @@ button {
 /* Landing Page */
 .landing {
   position: relative;
-  background: url("./img/showcase.jpg") no-repeat center center/cover;
+  background: url('./img/showcase.jpg') no-repeat center center/cover;
   height: 100vh;
 }
 
@@ -363,16 +406,19 @@ button {
   padding: 1rem;
   line-height: 1.8;
   margin-bottom: 1rem;
+  -webkit-box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+  box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
 }
 
 /* Profile Page */
 .profile-grid {
   display: grid;
   grid-template-areas:
-    "top top"
-    "about about"
-    "exp edu"
-    "github github";
+    'top top'
+    'about about'
+    'exp edu'
+    'github github';
   grid-gap: 1rem;
 }
 
@@ -469,6 +515,9 @@ button {
   grid-template-columns: 1fr 4fr;
   grid-gap: 2rem;
   align-items: center;
+  -webkit-box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+  box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
 }
 
 .post > div:first-child {
@@ -491,6 +540,41 @@ button {
   color: #aaa;
   font-size: 0.8rem;
   margin-bottom: 0.5rem;
+}
+/* Search bar */
+
+.search {
+  border: 2px solid #723dbe;
+  overflow: auto;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  width: 50%;
+}
+
+.search input[type='search'] {
+  border: 0px;
+  padding: 10px 10px;
+  width: 88%;
+}
+
+.search input[type='search']:focus {
+  outline: 0;
+}
+
+.search input[type='submit'] {
+  border: 0px;
+  background: none;
+  background-color: #723dbe;
+  color: #fff;
+  float: right;
+  width: 12%;
+  padding: 10px;
+  -moz-border-radius-top-right: 5px;
+  -webkit-border-radius-top-right: 5px;
+  -moz-border-radius-bottom-right: 5px;
+  -webkit-border-radius-bottom-right: 5px;
+  cursor: pointer;
 }
 
 /* Mobile Styles */
@@ -555,11 +639,11 @@ button {
 
   .profile-grid {
     grid-template-areas:
-      "top"
-      "about"
-      "exp"
-      "edu"
-      "github";
+      'top'
+      'about'
+      'exp'
+      'edu'
+      'github';
   }
 
   .profile-about .skills {
@@ -579,4 +663,56 @@ button {
   .post button {
     padding: 0.3rem 0.4rem;
   }
+  .search {
+    border: 2px solid #723dbe;
+    overflow: auto;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    width: 50%;
+  }
+
+  .search input[type='search'] {
+    border: 0px;
+    padding: 10px 10px;
+    font-size: 12px;
+    width: 70%;
+  }
+
+  .search input[type='search']:focus {
+    outline: 0;
+  }
+
+  .search input[type='submit'] {
+    border: 0px;
+    font-size: 12px;
+    background: none;
+    background-color: #723dbe;
+    color: #fff;
+    float: right;
+    width: 30%;
+    padding: 10px;
+    -moz-border-radius-top-right: 5px;
+    -webkit-border-radius-top-right: 5px;
+    -moz-border-radius-bottom-right: 5px;
+    -webkit-border-radius-bottom-right: 5px;
+    cursor: pointer;
+  }
+}
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+}
+
+.googlemap {
+  border: 0;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }

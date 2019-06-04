@@ -5,6 +5,8 @@ import {addPost} from '../../actions/post';
 
 const PostForm = ({ addPost }) => {
     const [text, setText] = useState('');
+    const [privatno, setPrivatno]=useState(false);
+
     return (
         <div className="post-form">
         <div className="bg-primary p">
@@ -12,7 +14,7 @@ const PostForm = ({ addPost }) => {
         </div>
         <form className="form my-1" onSubmit={e => {
             e.preventDefault();
-            addPost({ text });
+            addPost({ text,privatno });
             setText('');
         }}>
           <textarea
@@ -24,7 +26,22 @@ const PostForm = ({ addPost }) => {
             onChange={e => setText(e.target.value)}
             required
           ></textarea>
+          <div>
+          <input
+            type="checkbox"
+            name="privatno"
+            checked={privatno}
+            value={privatno}
+            onChange={() => {
+              setPrivatno( !privatno );
+            }}
+          />{" "}
+          Želite li da ova objava bude privatna? <span className="upute">Privatne objave su vidljive samo na vašem profilu.</span>
+          </div>
           <input type="submit" className="btn btn-dark my-1" value="Submit" />
+
+          
+
         </form>
       </div>
 
