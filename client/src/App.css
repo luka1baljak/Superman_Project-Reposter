@@ -520,6 +520,22 @@ button {
   box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
 }
 
+.commentar {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-gap: 2rem;
+  align-items: center;
+  -webkit-box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+  box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+  width: 80%;
+  margin-left: 10%;
+}
+.com-form {
+  width: 80%;
+  margin-left: 10%;
+}
+
 .post > div:first-child {
   text-align: center;
 }

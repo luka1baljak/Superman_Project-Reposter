@@ -271,7 +271,7 @@ router.post(
         user: req.user.id
       };
 
-      post.comments.unshift(newComment);
+      post.comments.push(newComment);
 
       await post.save();
 
@@ -290,24 +290,24 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     const post = await Post.findById(req.params.id);
 
     //Naci kommentar za brisanje
-    const comment = post.comments.find(
+    const commentX = post.comments.find(
       comment => comment.id === req.params.comment_id // comment => je zapravo for each!
     );
 
     //Da li komentar postoji?
-    if (!comment) {
+    if (!commentX) {
       return res.status(404).json({ msg: 'Komentar ne postoji' });
     }
 
     //Provjera Usera
-    if (comment.user.toString() !== req.user.id) {
+    if (commentX.user.toString() !== req.user.id) {
       return res.status(404).json({ msg: 'Niste authorizirani za tu radnju' });
     }
 
     //Pronaci index za birsanje
     const removeIndex = post.comments
-      .map(comment => comment.user.toString())
-      .indexOf(req.user.id);
+      .map(comment => comment.id.toString())
+      .indexOf(commentX.id.toString());
 
     post.comments.splice(removeIndex, 1);
 
@@ -346,7 +346,10 @@ router.get('/myfeed/posts', auth, async (req, res) => {
       return res.status(404).json({ msg: 'Nemoguće dohvatiti postove' });
     }
     res.json(posts);
-  } catch (error) {}
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
 });
 
 module.exports = router;

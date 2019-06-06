@@ -19,13 +19,15 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   const { name, email, password, password2, avatar, file } = formData;
 
   const fileSelectedHandler = e => {
-    setFormData({
-      ...formData,
-      avatar: e.target.files[0],
-      file: URL.createObjectURL(e.target.files[0])
-    });
-    if (e.target.files[0].size > 1024 * 1024 * 5) {
-      alert.show('Velicina slika ne smije preci 5mb');
+    if (e.target.files[0]) {
+      setFormData({
+        ...formData,
+        avatar: e.target.files[0],
+        file: URL.createObjectURL(e.target.files[0])
+      });
+      if (e.target.files[0].size > 1024 * 1024 * 5) {
+        alert.show('Velicina slika ne smije preci 5mb');
+      }
     }
   };
 

@@ -230,7 +230,7 @@ const EditProfile = ({
         )}
 
         <input type='submit' value='Spremi' className='btn btn-primary my-1' />
-        <Link className='btn btn-light my-1' to='/dashboard'>
+        <Link className='btn btn-light my-1' to={`/profile/${user._id}`}>
           Nazad
         </Link>
       </form>

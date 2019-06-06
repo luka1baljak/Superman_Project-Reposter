@@ -37,7 +37,7 @@ const Dashboard = ({
     setPerPage(5);
   };
 
-  return auth_loading && loading && profile === null ? (
+  return auth_loading || loading || post_loading ? (
     <Fragment>
       <Spinner />
     </Fragment>

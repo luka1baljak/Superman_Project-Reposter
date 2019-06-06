@@ -42,7 +42,6 @@ const Profile = ({
 
       return;
     }
-    console.log('fetch posts fired with:page number', page);
     getUsersPosts(match.params.id, page, perPage);
     setPage(page + 1);
     setPerPage(5);
@@ -54,7 +53,7 @@ const Profile = ({
         <Spinner />
       ) : (
         <Fragment>
-          {profile === null ? (
+          {auth.isAuthenticated && profile === null ? (
             <Fragment>
               <p>Molimo postavite vaš profil...</p>
               <Link to='/create-profile' className='btn btn-primary my-1'>

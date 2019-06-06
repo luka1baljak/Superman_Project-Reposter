@@ -88,6 +88,15 @@ export const searchPosts = search => async dispatch => {
 
   try {
     const keyWord = search.toLowerCase();
+    if (!keyWord) {
+      const res = await axios.get(`/api/posts`);
+
+      dispatch({
+        type: SEARCH_POSTS,
+        payload: res.data
+      });
+    }
+
     const res = await axios.get(`/api/search/posts/q=${keyWord}`);
 
     dispatch({
