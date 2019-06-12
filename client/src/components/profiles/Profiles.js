@@ -25,14 +25,20 @@ const Profiles = ({ getProfiles, profile: { profiles, loading, len } }) => {
     setPage(page + 1);
     setPerPage(2);
   };
-
+  const onSearch = () => {
+    setMoreExists(false);
+  };
   return (
     <Fragment>
       {loading ? (
         <Spinner />
       ) : (
         <Fragment>
-          <SearchBar holder='Upiši ime' fnc='profiles' />
+          <SearchBar
+            holder='Upiši ime i prezime'
+            fnc='profiles'
+            onSearch={onSearch}
+          />
           <h1 className='large text-primary'>Profili</h1>
           <p className='lead'>Tko nam se pridružio?</p>
           <InfiniteScroll

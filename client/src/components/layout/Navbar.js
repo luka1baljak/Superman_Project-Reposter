@@ -1,39 +1,54 @@
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { logout } from "../../actions/auth";
+import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../../actions/auth';
 
 const Navbar = ({ auth: { user, isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <ul>
+      <li>
+        <Link to='/join'>
+          <i className='fawes far fa-comments' />{' '}
+          <span className='hide-sm'>Chat</span>
+        </Link>
+      </li>
       <li>
         {user && (
           <Link to={`/profile/${user._id}`}>
             {user && (
               <img
                 src={`/${user.avatar}`}
-                alt=""
-                className="round-img mala-slika"
+                alt=''
+                className='round-img mala-slika'
               />
-            )}
-            &nbsp;Moj profil
+            )}{' '}
+            <span className='hide-sm'>Moj profil</span>
           </Link>
         )}
       </li>
       <li>
-        <Link to="/profiles">Korisnici</Link>
+        <Link to='/profiles'>
+          <i className='fawes fas fa-users' />{' '}
+          <span className='hide-sm'>Korisnici</span>
+        </Link>
       </li>
       <li>
-        <Link to="/posts">Glavni feed</Link>
+        <Link to='/posts'>
+          <i className='fawes fas fa-newspaper' />{' '}
+          <span className='hide-sm'>Glavni Feed</span>
+        </Link>
       </li>
       <li>
-        <Link to="/dashboard">Moj feed</Link>
+        <Link to='/dashboard'>
+          <i className='fawes far fa-newspaper' />{' '}
+          <span className='hide-sm'>Moj Feed</span>
+        </Link>
       </li>
       <li>
-        <a onClick={logout} href="#!">
-          <i className="fas fa-sign-out-alt" />{" "}
-          <span className="hide-sm">Odjavi se</span>
+        <a onClick={logout} href='#!'>
+          <i className='fawes fas fa-sign-out-alt' />{' '}
+          <span className='hide-sm'>Odjavi se</span>
         </a>
       </li>
     </ul>
@@ -42,25 +57,25 @@ const Navbar = ({ auth: { user, isAuthenticated, loading }, logout }) => {
   const guestLinks = (
     <ul>
       <li>
-        <Link to="/posts">Glavni feed</Link>
+        <Link to='/posts'>Glavni feed</Link>
       </li>
       <li>
-        <Link to="/profiles">Korisnici</Link>
+        <Link to='/profiles'>Korisnici</Link>
       </li>
       <li>
-        <Link to="/register">Registriraj se</Link>
+        <Link to='/register'>Registriraj se</Link>
       </li>
       <li>
-        <Link to="/login">Prijavi se</Link>
+        <Link to='/login'>Prijavi se</Link>
       </li>
     </ul>
   );
 
   return (
-    <nav className="navbar bg-dark">
+    <nav className='navbar bg-dark'>
       <h1>
-        <Link to="/">
-          <i className="fas fa-retweet" /> Reposter
+        <Link to='/'>
+          <i className='fas fa-retweet' /> Reposter
         </Link>
       </h1>
       {!loading && (

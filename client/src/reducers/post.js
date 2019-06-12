@@ -10,7 +10,8 @@ import {
   SEARCH_POSTS,
   CLEAR_POSTS,
   GET_MY_FEED,
-  CHECK_FOR_NEW_POSTS
+  CHECK_FOR_NEW_POSTS,
+  CHECK_FOR_NEW_POSTS_FEED
 } from '../actions/types';
 
 const initialState = {
@@ -30,21 +31,26 @@ export default function(state = initialState, action) {
         ...state,
         posts: payload.docs,
         loading: false,
-        len: payload.total
+        len: payload.total,
+        lenAfterCheck: payload.total
       };
     case GET_POSTS:
       return {
         ...state,
-        posts: state.posts.concat(payload.docs),
+        posts: state.posts.concat(
+          payload.docs.filter(post => !state.posts.includes(post))
+        ),
         loading: false,
-        len: payload.total
+        len: payload.total,
+        lenAfterCheck: payload.total
       };
     case GET_MY_FEED:
       return {
         ...state,
         posts: state.posts.concat(payload.docs),
         loading: false,
-        len: payload.total
+        len: payload.total,
+        lenAfterCheck: payload.total
       };
     case GET_POST:
       return {
@@ -56,13 +62,15 @@ export default function(state = initialState, action) {
       return {
         ...state,
         posts: [payload, ...state.posts],
-        loading: false
+        loading: false,
+        lenAfterCheck: state.lenAfterCheck + 1
       };
     case DELETE_POST:
       return {
         ...state,
         posts: state.posts.filter(post => post._id !== payload),
-        loading: false
+        loading: false,
+        lenAfterCheck: state.lenAfterCheck - 1
       };
     case POST_ERROR:
       return {
@@ -88,6 +96,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         posts: [],
+        lenAfterCheck: 0,
         loading: false
       };
     case REMOVE_COMMENT:
@@ -102,6 +111,12 @@ export default function(state = initialState, action) {
         loading: false
       };
     case CHECK_FOR_NEW_POSTS:
+      return {
+        ...state,
+        loading: false,
+        lenAfterCheck: payload.total
+      };
+    case CHECK_FOR_NEW_POSTS_FEED:
       return {
         ...state,
         loading: false,

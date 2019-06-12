@@ -9,6 +9,7 @@ import DOMPurify from 'dompurify';
 import ReactPlayer from 'react-player';
 
 const PostItem = ({
+  onRepost,
   addPost,
   addLike,
   removeLike,
@@ -65,7 +66,10 @@ const PostItem = ({
   });
 
   var linkedText = autolinker.link(textWithHashLinks);
-
+  const handleOnClick = e => {
+    onRepost();
+    addPost({ text });
+  };
   return (
     <Fragment>
       {ytlink ? (
@@ -143,7 +147,7 @@ const PostItem = ({
                   </button>
                 ) : (
                   <button
-                    onClick={e => addPost({ text })}
+                    onClick={e => handleOnClick(e)}
                     type='button'
                     className='btn btn-success'
                   >

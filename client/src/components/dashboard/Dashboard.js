@@ -4,37 +4,57 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../actions/profile';
 import Spinner from '../layout/Spinner';
-import { getMyFeed } from '../../actions/post';
+import { getMyFeed, checkForNewPostsFeed } from '../../actions/post';
 import PostItem from '../posts/PostItem';
 import PostForm from '../posts/PostForm';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useAlert } from 'react-alert';
 
 const Dashboard = ({
   getCurrentProfile,
+  checkForNewPostsFeed,
   getMyFeed,
   auth: { user, isAuthenticated, loading: auth_loading },
   profile: { profile, loading },
-  post: { posts, len, loading: post_loading }
+  post: { posts, len, loading: post_loading, lenAfterCheck }
 }) => {
-  useEffect(() => {
-    getCurrentProfile();
-    getMyFeed(1, 5);
-  }, [getCurrentProfile, getMyFeed]);
-
-  const [page, setPage] = useState(2);
+  const alert = useAlert();
+  const [offset, setOffset] = useState(0);
   const [perPage, setPerPage] = useState(5);
   const [moreExists, setMoreExists] = useState(true);
+
+  useEffect(() => {
+    getCurrentProfile();
+  }, [getCurrentProfile]);
+
+  useEffect(() => {
+    getMyFeed(offset, perPage);
+  }, [getMyFeed, offset, perPage]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      checkForNewPostsFeed();
+    }, 10000);
+    return () => clearInterval(timer);
+  }, [checkForNewPostsFeed]);
+
+  useEffect(() => {
+    if (!post_loading) {
+      lenAfterCheck > len && alert.show('dodani su novi postovi');
+    }
+  }, [checkForNewPostsFeed, len, lenAfterCheck, post_loading]);
 
   const fetchPosts = () => {
     if (posts.length >= len) {
       setMoreExists(false);
-
       return;
     }
-
-    getMyFeed(page, perPage);
-    setPage(page + 1);
+    setOffset(offset + perPage);
     setPerPage(5);
+  };
+
+  const onRepost = () => {
+    setOffset(offset + 6);
   };
 
   return auth_loading || loading || post_loading ? (
@@ -63,7 +83,7 @@ const Dashboard = ({
           >
             <Fragment>
               {isAuthenticated ? (
-                <PostForm />
+                <PostForm onRepost={onRepost} />
               ) : (
                 <Fragment>
                   <p className='lead'>
@@ -77,7 +97,9 @@ const Dashboard = ({
                 {posts.length === 0 ? (
                   <Fragment />
                 ) : (
-                  posts.map(post => <PostItem key={post._id} post={post} />)
+                  posts.map(post => (
+                    <PostItem key={post._id} post={post} onRepost={onRepost} />
+                  ))
                 )}
               </div>
             )}
@@ -97,6 +119,7 @@ const Dashboard = ({
 
 Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
+  checkForNewPostsFeed: PropTypes.func.isRequired,
   getMyFeed: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
@@ -113,5 +136,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile, getMyFeed }
+  { getCurrentProfile, getMyFeed, checkForNewPostsFeed }
 )(Dashboard);

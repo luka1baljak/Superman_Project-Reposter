@@ -63,11 +63,7 @@ router.post(
           regularLinks.unshift(elem);
         }
       });
-      /* const ytCode = youtubeLink.map(elem => {
-        const arr = elem.split("=");
-        arr.shift();
-        return arr.join("");
-      });*/
+
       //Stvara novi post i sprema ga u bazu, te podatke šalje kao odgovor
       const newPost = new Post({
         text: req.body.text,
@@ -94,11 +90,11 @@ router.post(
 //GET api/posts - dohvaćanje svih postova
 router.get('/', async (req, res) => {
   try {
-    const { page, perPage } = req.query;
+    const { offset, limit } = req.query;
     const options = {
       sort: { date: -1 },
-      page: parseInt(page, 10) || 1,
-      limit: parseInt(perPage, 10) || 10
+      offset: parseInt(offset, 10) || 0,
+      limit: parseInt(limit, 10) || 10
     };
 
     const posts = await Post.paginate({ privatno: false }, options);
@@ -118,11 +114,11 @@ router.get('/', async (req, res) => {
 //GET api/posts/user_posts/:user_id
 router.get('/user_posts/:user_id', async (req, res) => {
   try {
-    const { page, perPage } = req.query;
+    const { offset, limit } = req.query;
     const options = {
       sort: { date: -1 },
-      page: parseInt(page, 10) || 1,
-      limit: parseInt(perPage, 10) || 10
+      offset: parseInt(offset, 10) || 0,
+      limit: parseInt(limit, 10) || 10
     };
 
     const posts = await Post.paginate({ user: req.params.user_id }, options);
@@ -331,17 +327,19 @@ router.get('/myfeed/posts', auth, async (req, res) => {
     const followingIds = prof.following.map(p => p._id.toString());
     const followingAndUserIds = [...followingIds, req.user.id.toString()];
 
-    const { page, perPage } = req.query;
+    const { offset, limit } = req.query;
     const options = {
       sort: { date: -1 },
-      page: parseInt(page, 10) || 1,
-      limit: parseInt(perPage, 10) || 10
+      offset: parseInt(offset, 10) || 0,
+      limit: parseInt(limit, 10) || 10
     };
+
     //Pronadji sve postove kojima se user nalazi u arrayu
     const posts = await Post.paginate(
       { privatno: false, user: followingAndUserIds },
       options
     );
+
     if (!posts) {
       return res.status(404).json({ msg: 'Nemoguće dohvatiti postove' });
     }

@@ -21,30 +21,28 @@ const Profile = ({
   post: { posts, len, loading: posts_load },
   match
 }) => {
-  useEffect(() => {
-    getProfileById(match.params.id);
-    getUsersPosts(match.params.id, 1, 5);
-  }, [
-    getProfileById,
-    match.params.id,
-    addFollower,
-    removeFollower,
-    getUsersPosts
-  ]);
-
-  const [page, setPage] = useState(2);
+  const [offset, setOffset] = useState(0);
   const [perPage, setPerPage] = useState(5);
   const [moreExists, setMoreExists] = useState(true);
+
+  useEffect(() => {
+    getProfileById(match.params.id);
+  }, [getProfileById, match.params.id, addFollower, removeFollower]);
+
+  useEffect(() => {
+    getUsersPosts(match.params.id, offset, perPage);
+  }, [getUsersPosts, match.params.id, offset, perPage]);
 
   const fetchPosts = () => {
     if (posts.length >= len) {
       setMoreExists(false);
-
       return;
     }
-    getUsersPosts(match.params.id, page, perPage);
-    setPage(page + 1);
+    setOffset(offset + perPage);
     setPerPage(5);
+  };
+  const onRepost = () => {
+    setOffset(offset + 6);
   };
 
   return (
@@ -128,7 +126,9 @@ const Profile = ({
               {posts.length === 0 ? (
                 <Fragment />
               ) : (
-                posts.map(post => <PostItem key={post._id} post={post} />)
+                posts.map(post => (
+                  <PostItem key={post._id} post={post} onRepost={onRepost} />
+                ))
               )}
             </div>
           )}

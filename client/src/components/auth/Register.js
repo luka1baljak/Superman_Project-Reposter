@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { useAlert } from 'react-alert';
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
+  const [termsAndConditions, setTermsAndConditions] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -30,7 +31,9 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       }
     }
   };
-
+  const onCheck = e => {
+    setTermsAndConditions(true);
+  };
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -38,14 +41,16 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     e.preventDefault();
 
     if (password !== password2) {
-      setAlert('Passwords do not match', 'danger');
+      setAlert('Lozinke se ne podudaraju!', 'danger');
+    } else if (!termsAndConditions) {
+      setAlert('Molimo vas prihvatite odredbe i uvjete', 'danger');
     } else {
       register({ name, email, password, avatar });
     }
   };
 
   if (isAuthenticated) {
-    return <Redirect to='/firstlogin' />;
+    return <Redirect to='/login' />;
   }
 
   return (
@@ -74,7 +79,6 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
           />
           <small className='form-text' />
         </div>
-
         <div>
           <div className='izbor-slike'>
             <input
@@ -90,7 +94,6 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             </div>
           )}
         </div>
-
         <div className='form-group'>
           <input
             type='password'
@@ -108,6 +111,14 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             value={password2}
             onChange={e => onChange(e)}
           />
+        </div>
+        <div className='form-group'>
+          <input
+            type='checkbox'
+            name='termsAndConditions'
+            onChange={e => onCheck(e)}
+          />{' '}
+          Prihvaćate li odredbe i uvjete Repostera{' '}
         </div>
         <input
           type='submit'

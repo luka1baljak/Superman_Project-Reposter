@@ -12,16 +12,17 @@ import {
   SEARCH_POSTS,
   CLEAR_POSTS,
   GET_MY_FEED,
-  CHECK_FOR_NEW_POSTS
+  CHECK_FOR_NEW_POSTS,
+  CHECK_FOR_NEW_POSTS_FEED
 } from './types';
 
 //get posts za main feed
-export const getPosts = (page, perPage) => async dispatch => {
-  if (page === 1) {
+export const getPosts = (offset, perPage) => async dispatch => {
+  if (offset === 0) {
     dispatch({ type: CLEAR_POSTS });
   }
   try {
-    const res = await axios.get(`/api/posts?page=${page}&perPage=${perPage}`);
+    const res = await axios.get(`/api/posts?offset=${offset}&limit=${perPage}`);
 
     dispatch({
       type: GET_POSTS,
@@ -58,13 +59,13 @@ export const checkForNewPosts = () => async dispatch => {
 };
 
 //Dohvaćanje postova od odeđenog usera
-export const getUsersPosts = (user_id, page, perPage) => async dispatch => {
-  if (page === 1) {
+export const getUsersPosts = (user_id, offset, limit) => async dispatch => {
+  if (offset === 0) {
     dispatch({ type: CLEAR_POSTS });
   }
   try {
     const res = await axios.get(
-      `/api/posts/user_posts/${user_id}?page=${page}&perPage=${perPage}`
+      `/api/posts/user_posts/${user_id}?offset=${offset}&limit=${limit}`
     );
 
     dispatch({
@@ -114,17 +115,35 @@ export const searchPosts = search => async dispatch => {
   }
 };
 //Postovi za moj Feed
-export const getMyFeed = (page, perPage) => async dispatch => {
-  if (page === 1) {
+export const getMyFeed = (offset, limit) => async dispatch => {
+  if (offset === 0) {
     dispatch({ type: CLEAR_POSTS });
   }
   try {
     const res = await axios.get(
-      `/api/posts/myfeed/posts?page=${page}&perPage=${perPage}`
+      `/api/posts/myfeed/posts?offset=${offset}&limit=${limit}`
     );
 
     dispatch({
       type: GET_MY_FEED,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+  }
+};
+export const checkForNewPostsFeed = () => async dispatch => {
+  try {
+    const res = await axios.get(`/api/posts/myfeed/posts`);
+
+    dispatch({
+      type: CHECK_FOR_NEW_POSTS_FEED,
       payload: res.data
     });
   } catch (err) {
@@ -188,7 +207,7 @@ export const deletePost = id => async dispatch => {
       payload: id
     });
 
-    dispatch(setAlert('Post Removed', 'success'));
+    dispatch(setAlert('Post uklonjen', 'success'));
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -215,7 +234,7 @@ export const addPost = formData => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert('Post created', 'success'));
+    dispatch(setAlert('Post napravljen', 'success'));
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -269,7 +288,7 @@ export const addComment = (postId, formData) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert('Comment added', 'success'));
+    dispatch(setAlert('Komentar je dodan', 'success'));
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -291,7 +310,7 @@ export const deleteComment = (postId, commentId) => async dispatch => {
       payload: commentId
     });
 
-    dispatch(setAlert('Comment removed', 'success'));
+    dispatch(setAlert('Komentar uklonjen', 'success'));
   } catch (err) {
     dispatch({
       type: POST_ERROR,

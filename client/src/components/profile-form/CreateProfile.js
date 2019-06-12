@@ -1,19 +1,19 @@
-import React, { useState, Fragment } from "react";
-import { Link, withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { createProfile } from "../../actions/profile";
+import React, { useState, Fragment } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createProfile } from '../../actions/profile';
 
 const CreateProfile = ({ createProfile, history }) => {
   const [formData, setFormData] = useState({
-    datum_rodjenja: "",
-    broj_telefona: "",
-    lokacija: "",
-    životni_moto: "",
+    datum_rodjenja: '',
+    broj_telefona: '',
+    lokacija: '',
+    životni_moto: '',
     privatno: false,
-    instagram: "",
-    twitter: "",
-    facebook: ""
+    instagram: '',
+    twitter: '',
+    facebook: ''
   });
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
@@ -32,7 +32,6 @@ const CreateProfile = ({ createProfile, history }) => {
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    
   };
 
   const onSubmit = e => {
@@ -42,102 +41,105 @@ const CreateProfile = ({ createProfile, history }) => {
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Izradi svoj profil</h1>
-      <p className="lead">
-        Podatci nisu obavezni. <span className="upute">Samo potvrdite spremanje praznih podataka.</span>
+      <h1 className='large text-primary'>Izradi svoj profil</h1>
+      <p className='lead'>
+        Podatci nisu obavezni.{' '}
+        <span className='upute'>
+          Samo potvrdite spremanje praznih podataka.
+        </span>
       </p>
-      <form className="form" onSubmit={e => onSubmit(e)}>
-        <div className="form-group">
+      <form className='form' onSubmit={e => onSubmit(e)}>
+        <div className='form-group'>
           <input
-            type="text"
-            placeholder="Datum rođenja"
-            name="datum_rodjenja"
+            type='date'
+            placeholder='Datum rođenja'
+            name='datum_rodjenja'
             value={datum_rodjenja}
             onChange={e => onChange(e)}
           />
         </div>
-        <div className="form-group">
+        <div className='form-group'>
           <input
-            type="text"
-            placeholder="Broj telefona"
-            name="broj_telefona"
+            type='text'
+            placeholder='Broj telefona'
+            name='broj_telefona'
             value={broj_telefona}
             onChange={e => onChange(e)}
           />
         </div>
-        <div className="form-group">
+        <div className='form-group'>
           <input
-            type="text"
-            placeholder="Lokacija"
-            name="lokacija"
+            type='text'
+            placeholder='Lokacija'
+            name='lokacija'
             value={lokacija}
             onChange={e => onChange(e)}
           />
         </div>
 
-        <div className="form-group">
+        <div className='form-group'>
           <textarea
-            placeholder="Life quote"
-            name="životni_moto"
+            placeholder='Life quote'
+            name='životni_moto'
             value={životni_moto}
             onChange={e => onChange(e)}
           />
         </div>
 
-        <div className="form-group">
+        <div className='form-group'>
           <input
-            type="checkbox"
-            name="privatno"
+            type='checkbox'
+            name='privatno'
             checked={privatno}
             value={privatno}
             onChange={() => {
               setFormData({ ...formData, privatno: !privatno });
             }}
-          />{" "}
+          />{' '}
           Želite li da vam profil bude privatan
         </div>
 
-        <div className="my-2">
+        <div className='my-2'>
           <button
             onClick={() => toggleSocialInputs(!displaySocialInputs)}
-            type="button"
-            className="btn btn-light"
+            type='button'
+            className='btn btn-light'
           >
             Društvene mreže
           </button>
-          <span className="upute">Nije obavezno</span>
+          <span className='upute'>Nije obavezno</span>
         </div>
 
         {displaySocialInputs && (
           <Fragment>
-            <div className="form-group social-input">
-              <i className="fab fa-twitter fa-2x" />
+            <div className='form-group social-input'>
+              <i className='fab fa-twitter fa-2x' />
               <input
-                type="text"
-                placeholder="Twitter URL"
-                name="twitter"
+                type='text'
+                placeholder='Twitter URL'
+                name='twitter'
                 value={twitter}
                 onChange={e => onChange(e)}
               />
             </div>
 
-            <div className="form-group social-input">
-              <i className="fab fa-facebook fa-2x" />
+            <div className='form-group social-input'>
+              <i className='fab fa-facebook fa-2x' />
               <input
-                type="text"
-                placeholder="Facebook URL"
-                name="facebook"
+                type='text'
+                placeholder='Facebook URL'
+                name='facebook'
                 value={facebook}
                 onChange={e => onChange(e)}
               />
             </div>
 
-            <div className="form-group social-input">
-              <i className="fab fa-instagram fa-2x" />
+            <div className='form-group social-input'>
+              <i className='fab fa-instagram fa-2x' />
               <input
-                type="text"
-                placeholder="Instagram URL"
-                name="instagram"
+                type='text'
+                placeholder='Instagram URL'
+                name='instagram'
                 value={instagram}
                 onChange={e => onChange(e)}
               />
@@ -145,8 +147,8 @@ const CreateProfile = ({ createProfile, history }) => {
           </Fragment>
         )}
 
-        <input type="submit" className="btn btn-primary my-1" />
-        <Link className="btn btn-light my-1" to="/dashboard">
+        <input type='submit' value='Stvori' className='btn btn-primary my-1' />
+        <Link className='btn btn-light my-1' to='/dashboard'>
           Nazad
         </Link>
       </form>

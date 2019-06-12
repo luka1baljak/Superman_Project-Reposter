@@ -121,7 +121,7 @@ export const createProfile = (
     });
 
     dispatch(
-      setAlert(edit ? 'Profil je updejtan ' : 'Profil napravljen', 'success')
+      setAlert(edit ? 'Profil je prepravljen ' : 'Profil napravljen', 'success')
     );
 
     if (!edit) {
@@ -150,7 +150,7 @@ export const deleteAccount = () => async dispatch => {
         type: ACCOUNT_DELETED
       });
 
-      dispatch(setAlert('Your account has been permanantly deleted'));
+      dispatch(setAlert('Vaš account je trajno uklonjen'));
     } catch (err) {
       dispatch({
         type: PROFILE_ERROR,
@@ -168,7 +168,7 @@ export const addFollower = id => async dispatch => {
       type: ADD_FOLLOWER,
       payload: { id, profile: res.data }
     });
-    dispatch(setAlert('You are now following this user!', 'success'));
+    dispatch(setAlert('Počeli ste pratiti ovog korisnika!', 'success'));
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
@@ -188,7 +188,7 @@ export const removeFollower = id => async dispatch => {
       type: REMOVE_FOLLOWER,
       payload: { id, profile: res.data }
     });
-    dispatch(setAlert('You stopped following this user!', 'success'));
+    dispatch(setAlert('Prestali ste pratiti ovog korisnika!', 'success'));
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,

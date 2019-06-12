@@ -16,31 +16,48 @@ const Posts = ({
   post: { posts, len, lenAfterCheck, loading }
 }) => {
   const alert = useAlert();
-  useEffect(() => {
-    getPosts(1, 5);
-    setInterval(() => {
-      checkForNewPosts();
-    }, 10000);
-  }, [getPosts, checkForNewPosts]);
-  useEffect(() => {
-    if (!loading && len > 6) {
-      lenAfterCheck > len && alert.show('dodani su novi postovi');
-    }
-  }, [checkForNewPosts, len, lenAfterCheck, loading]);
-  const [page, setPage] = useState(2);
+  const [offset, setOffset] = useState(0);
   const [perPage, setPerPage] = useState(5);
   const [moreExists, setMoreExists] = useState(true);
+  const [chckPosts, setChckPosts] = useState(true);
+  const onSearch = () => {
+    setMoreExists(false);
+    setChckPosts(true);
+  };
+  useEffect(() => {
+    setChckPosts(false);
+    getPosts(offset, perPage);
+  }, [getPosts, offset, perPage]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!chckPosts) {
+        checkForNewPosts();
+      }
+    }, 10000);
+
+    return () => clearInterval(timer);
+  }, [checkForNewPosts, chckPosts]);
+
+  useEffect(() => {
+    if (!loading) {
+      if (lenAfterCheck > len) {
+        alert.show('dodani su novi postovi');
+      }
+    }
+  }, [checkForNewPosts, len, lenAfterCheck, loading]);
 
   const fetchPosts = () => {
     if (posts.length >= len) {
       setMoreExists(false);
-
       return;
     }
-    console.log('fetch posts fired with:page number', page);
-    getPosts(page, perPage);
-    setPage(page + 1);
+    setOffset(offset + perPage);
     setPerPage(5);
+  };
+
+  const onRepost = () => {
+    setOffset(offset + 6);
   };
 
   return auth.loading || loading ? (
@@ -48,7 +65,7 @@ const Posts = ({
   ) : (
     <div>
       <Fragment>
-        <SearchBar holder='Upiši hash' fnc='posts' />
+        <SearchBar holder='Upiši hash' fnc='posts' onSearch={onSearch} />
         <h1 className='large text-primary'>Main Feed - postovi</h1>
         <InfiniteScroll
           dataLength={posts.length}
@@ -63,7 +80,7 @@ const Posts = ({
         >
           <Fragment>
             {auth.isAuthenticated ? (
-              <PostForm />
+              <PostForm onRepost={onRepost} />
             ) : (
               <Fragment>
                 <p className='lead'>
@@ -77,7 +94,9 @@ const Posts = ({
             {posts.length === 0 ? (
               <Fragment />
             ) : (
-              posts.map(post => <PostItem key={post._id} post={post} />)
+              posts.map(post => (
+                <PostItem key={post._id} post={post} onRepost={onRepost} />
+              ))
             )}
           </div>
         </InfiniteScroll>

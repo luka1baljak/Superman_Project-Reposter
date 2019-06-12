@@ -7,6 +7,7 @@ import {
   types,
   Provider as AlertProvider
 } from 'react-alert';
+
 import AlertTemplate from 'react-alert-template-basic';
 
 //Opcije za obavijesti

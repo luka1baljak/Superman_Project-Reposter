@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { searchPosts } from '../../actions/post';
 import { searchProfiles } from '../../actions/profile';
-const SearchBar = ({ searchProfiles, searchPosts, holder, fnc }) => {
+const SearchBar = ({ onSearch, searchProfiles, searchPosts, holder, fnc }) => {
   const [search, setSearch] = useState('');
 
   const onSubmit = e => {
     e.preventDefault();
+    onSearch();
     switch (fnc) {
       case 'posts':
         searchPosts(search);
