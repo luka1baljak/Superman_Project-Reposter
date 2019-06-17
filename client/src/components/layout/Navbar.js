@@ -1,27 +1,54 @@
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { logout } from "../../actions/auth";
+import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../../actions/auth';
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+const Navbar = ({ auth: { user, isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <ul>
       <li>
-        <Link to="/profiles">Profili</Link>
-      </li>
-      <li>
-        <Link to="/posts">Main feed</Link>
-      </li>
-      <li>
-        <Link to="/dashboard">
-          My feed
+        <Link to='/join'>
+          <i className='fawes far fa-comments' />{' '}
+          <span className='hide-sm'>Chat</span>
         </Link>
       </li>
       <li>
-        <a onClick={logout} href="#!">
-          <i className="fas fa-sign-out-alt" />{" "}
-          <span className="hide-sm">Logout</span>
+        {user && (
+          <Link to={`/profile/${user._id}`}>
+            {user && (
+              <img
+                src={`/${user.avatar}`}
+                alt=''
+                className='round-img mala-slika'
+              />
+            )}{' '}
+            <span className='hide-sm'>Moj profil</span>
+          </Link>
+        )}
+      </li>
+      <li>
+        <Link to='/profiles'>
+          <i className='fawes fas fa-users' />{' '}
+          <span className='hide-sm'>Korisnici</span>
+        </Link>
+      </li>
+      <li>
+        <Link to='/posts'>
+          <i className='fawes fas fa-newspaper' />{' '}
+          <span className='hide-sm'>Glavni Feed</span>
+        </Link>
+      </li>
+      <li>
+        <Link to='/dashboard'>
+          <i className='fawes far fa-newspaper' />{' '}
+          <span className='hide-sm'>Moj Feed</span>
+        </Link>
+      </li>
+      <li>
+        <a onClick={logout} href='#!'>
+          <i className='fawes fas fa-sign-out-alt' />{' '}
+          <span className='hide-sm'>Odjavi se</span>
         </a>
       </li>
     </ul>
@@ -30,18 +57,6 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const guestLinks = (
     <ul>
       <li>
-<<<<<<< Updated upstream
-        <Link to="/posts">Main feed</Link>
-      </li>
-      <li>
-        <Link to="/profiles">Profili</Link>
-      </li>
-      <li>
-        <Link to="/register">Register</Link>
-      </li>
-      <li>
-        <Link to="/login">Login</Link>
-=======
         <Link to='/posts'>
           <i className='fawes fas fa-newspaper' />{' '}
           <span className='hide-sm'>Glavni feed</span>
@@ -64,16 +79,15 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
           <i className='fawes fas fa-user' />{' '}
           <span className='hide-sm'>Prijavi se</span>
         </Link>
->>>>>>> Stashed changes
       </li>
     </ul>
   );
 
   return (
-    <nav className="navbar bg-dark">
+    <nav className='navbar bg-dark'>
       <h1>
-        <Link to="/">
-          <i className="fas fa-retweet" /> The Art Of Repost
+        <Link to='/'>
+          <i className='fas fa-retweet' /> Reposter
         </Link>
       </h1>
       {!loading && (

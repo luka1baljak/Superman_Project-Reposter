@@ -1,5 +1,5 @@
 {
-  "name": "Learning",
+  "name": "learning",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,13 +10,12 @@
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
-  "author": "Luke",
+  "author": "Team Superman",
   "license": "ISC",
   "dependencies": {
-    "admin-bro": "^0.8.6",
-    "admin-bro-expressjs": "^0.1.7",
     "bcryptjs": "^2.4.3",
     "config": "^3.1.0",
+    "cors": "^2.8.5",
     "express": "^4.17.0",
     "express-validator": "^5.3.1",
     "get-urls": "^9.1.0",
@@ -24,12 +23,17 @@
     "is-image-url": "^1.1.8",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.9",
+    "mongoose-paginate": "^5.0.3",
     "multer": "^1.4.1",
+    "nodemailer": "^6.2.1",
     "react": "^16.8.6",
-    "request": "^2.88.0"
+    "react-alert": "^5.5.0",
+    "react-alert-template-basic": "^1.0.0",
+    "request": "^2.88.0",
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
-    "nodemon": "^1.19.0"
+    "nodemon": "^1.19.1"
   }
 }

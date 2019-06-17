@@ -1,5 +1,5 @@
-import axios from "axios";
-import { setAlert } from "./alert";
+import axios from 'axios';
+import { setAlert } from './alert';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -9,8 +9,8 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   CLEAR_PROFILE
-} from "./types";
-import setAuthToken from "../utils/setAuthToken";
+} from './types';
+import setAuthToken from '../utils/setAuthToken';
 
 //Load user
 export const loadUser = () => async dispatch => {
@@ -19,7 +19,7 @@ export const loadUser = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get("/api/auth");
+    const res = await axios.get('/api/auth');
 
     dispatch({
       type: USER_LOADED,
@@ -33,29 +33,35 @@ export const loadUser = () => async dispatch => {
 };
 
 //Register User
-export const register = ({ name, email, password }) => async dispatch => {
-  const config = {
-    headers: {
-      "content-type": "application/json"
-    }
-  };
-
-  const body = JSON.stringify({ name, email, password });
+export const register = ({
+  name,
+  email,
+  password,
+  avatar
+}) => async dispatch => {
+  const fd = new FormData();
+  fd.append('name', name);
+  fd.append('email', email);
+  fd.append('password', password);
+  fd.append('avatar', avatar);
+  //const body = JSON.stringify({ name, email, password,avatar});
 
   try {
-    const res = await axios.post("/api/users", body, config);
+    const res = await axios.post('/api/users', fd);
 
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data
     });
-
+    const msg =
+      'Provjerite svoj e-mail kako bi dobili kod za verifikaciju. Ako ne vidite mail, provjerite u spam folderu';
+    dispatch(setAlert(msg, 'success'));
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
@@ -68,14 +74,13 @@ export const register = ({ name, email, password }) => async dispatch => {
 export const login = (email, password) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
-
   const body = JSON.stringify({ email, password });
 
   try {
-    const res = await axios.post("/api/auth", body, config);
+    const res = await axios.post('/api/auth', body, config);
 
     dispatch({
       type: LOGIN_SUCCESS,
@@ -87,7 +92,7 @@ export const login = (email, password) => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({

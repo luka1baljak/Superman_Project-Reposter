@@ -7,8 +7,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const multer = require("multer");
-<<<<<<< Updated upstream
-=======
 const auth = require("../../middleware/auth");
 const nodemailer = require("nodemailer");
 //Transporter za gmail
@@ -20,7 +18,6 @@ const transporter = nodemailer.createTransport({
     pass: "trr2sgsup"
   }
 });
->>>>>>> Stashed changes
 
 //Profile picture prilikom registracije
 const storage = multer.diskStorage({
@@ -108,8 +105,6 @@ router.post(
       jwt.sign(
         payload,
         config.get("jwtSecret"), //secret
-<<<<<<< Updated upstream
-=======
         { expiresIn: 3600 }, //optional expiracija
         (err, token) => {
           if (err) throw err;
@@ -192,7 +187,6 @@ router.put(
       jwt.sign(
         payload,
         config.get("jwtSecret"), //secret
->>>>>>> Stashed changes
         { expiresIn: 360000 }, //optional expiracija
         (err, token) => {
           if (err) throw err;

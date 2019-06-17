@@ -1,12 +1,9 @@
 const express = require("express");
 const connectDB = require("./config/db");
-<<<<<<< Updated upstream
-=======
 //Za chat
 const cors = require("cors");
 const Message = require("./models/Message");
 const socket = require("socket.io");
->>>>>>> Stashed changes
 
 const app = express();
 
@@ -22,18 +19,12 @@ app.get("/", (req, res) => {
 
 //Definiranje Routesa
 //Middleware za profile pictures
-<<<<<<< Updated upstream
-app.use('/uploads',express.static('uploads'));
-//Middleware za dodavanje api/users na sve routeove za usere
-app.use("/api/users", require("./routes/api/users"));
-=======
 app.use("/uploads", express.static("uploads"));
 //Middleware za dodavanje api/users na sve routeove za usere
 app.use("/api/users", require("./routes/api/users"));
 
 //Middleware za search
 app.use("/api/search", require("./routes/api/search"));
->>>>>>> Stashed changes
 
 //Middleware za dodavanje api/auth na sve routeove za authentikaciju
 app.use("/api/auth", require("./routes/api/auth"));
@@ -47,11 +38,6 @@ app.use("/api/posts", require("./routes/api/posts"));
 //Port varijabla koja trazi dali je vec setana, ako ne uzme 5000 kao default
 const PORT = process.env.PORT || 5000;
 
-<<<<<<< Updated upstream
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}...`);
-});
-=======
 //Kod za chat
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Content-type");
@@ -95,4 +81,3 @@ nsp.on("connection", socket => {
     nsp.emit("new-message", data);
   });
 });
->>>>>>> Stashed changes

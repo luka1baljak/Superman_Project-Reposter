@@ -1,14 +1,8 @@
-<<<<<<< Updated upstream
-=======
 @import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
 
->>>>>>> Stashed changes
 /* Global Styles */
-
-/* Font */
-@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
-
 :root {
+  --problem-color: rgb(203, 237, 255);
   --primary-color: #723dbe;
   --dark-color: #343a40;
   --light-color: #f4f4f4;
@@ -65,8 +59,6 @@ img {
   line-height: 1.2;
   margin-bottom: 1rem;
 }
-<<<<<<< Updated upstream
-=======
 /* Update*/
 /* Chat */
 .center {
@@ -168,7 +160,6 @@ img {
 .upute {
   color: #c4c4c4;
 }
->>>>>>> Stashed changes
 
 .lead {
   font-size: 1.5rem;
@@ -269,7 +260,10 @@ img {
   background: var(--light-color);
   color: #333;
 }
-
+.btn-problem {
+  background: var(--problem-color);
+  color: rgb(10, 10, 10);
+}
 .btn-primary,
 .bg-primary,
 .badge-primary,
@@ -331,6 +325,9 @@ img {
 .round-img {
   border-radius: 50%;
 }
+.round-img-size {
+  width: 45%;
+}
 
 .line {
   height: 1px;
@@ -349,9 +346,15 @@ img {
 }
 
 /* Forms */
+
 .form .form-group {
   margin: 1.2rem 0;
 }
+/*
+.form:active {
+  border-color: #723dbe;
+  box-shadow: 0 0 0 0.2rem rgba(114, 61, 190, 0.25);
+}*/
 
 .form .form-text {
   display: block;
@@ -359,8 +362,6 @@ img {
   color: #888;
 }
 
-<<<<<<< Updated upstream
-=======
 .form-control {
   border-radius: 25px 50px;
 }
@@ -369,7 +370,6 @@ img {
   border-color: #723dbe;
 }
 
->>>>>>> Stashed changes
 .form input[type="text"],
 .form input[type="email"],
 .form input[type="password"],
@@ -379,12 +379,9 @@ img {
   display: block;
   width: 100%;
   padding: 0.4rem;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   border: 1px solid #ccc;
-<<<<<<< Updated upstream
-=======
   font-family: "Poppins", sans-serif;
->>>>>>> Stashed changes
 }
 
 .form input[type="submit"],
@@ -460,10 +457,12 @@ button {
 }
 
 /* Landing Page */
+
 .landing {
   position: relative;
   background: url("./img/showcase.jpg") no-repeat center center/cover;
   height: 100vh;
+  overflow: auto;
 }
 
 .landing-inner {
@@ -487,6 +486,9 @@ button {
   padding: 1rem;
   line-height: 1.8;
   margin-bottom: 1rem;
+  -webkit-box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+  box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
 }
 
 /* Profile Page */
@@ -593,6 +595,25 @@ button {
   grid-template-columns: 1fr 4fr;
   grid-gap: 2rem;
   align-items: center;
+  -webkit-box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+  box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+}
+
+.commentar {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-gap: 2rem;
+  align-items: center;
+  -webkit-box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+  box-shadow: 5px 10px 25px -4px rgba(0, 0, 0, 0.75);
+  width: 80%;
+  margin-left: 10%;
+}
+.com-form {
+  width: 80%;
+  margin-left: 10%;
 }
 
 .post > div:first-child {
@@ -616,8 +637,6 @@ button {
   font-size: 0.8rem;
   margin-bottom: 0.5rem;
 }
-<<<<<<< Updated upstream
-=======
 /* Search bar */
 
 .search {
@@ -653,9 +672,20 @@ button {
   -webkit-border-radius-bottom-right: 5px;
   cursor: pointer;
 }
->>>>>>> Stashed changes
 
 /* Mobile Styles */
+@media (max-width: 925px) {
+  .hide-sm {
+    display: none;
+  }
+  .fawes {
+    font-size: 25px;
+  }
+  .mala-slika {
+    height: 22px;
+    width: 22px;
+  }
+}
 @media (max-width: 700px) {
   .container {
     margin-top: 8rem;
@@ -744,8 +774,6 @@ button {
   .post button {
     padding: 0.3rem 0.4rem;
   }
-<<<<<<< Updated upstream
-=======
   .search {
     border: 2px solid #723dbe;
     overflow: auto;
@@ -798,5 +826,4 @@ button {
   position: absolute;
   top: 0;
   width: 100%;
->>>>>>> Stashed changes
 }

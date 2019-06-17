@@ -1,29 +1,34 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const auth = require("../../middleware/auth");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const User = require("../../models/User");
-const { check, validationResult } = require("express-validator/check");
-const config = require("config");
+const auth = require('../../middleware/auth');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../../models/User');
+const { check, validationResult } = require('express-validator/check');
+const config = require('config');
 
 //GET api/auth route - vraća autentificiranog usera
-router.get("/", auth, async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user.confirmed) {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: 'Niste potvrdili vas e-mail' }] });
+    }
     res.json(user);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server error");
+    res.status(500).send('Server error');
   }
 });
 
 //POST api/auth route - autentifikacija usera (login)
 router.post(
-  "/",
+  '/',
   [
-    check("email", "Molimo unesite valjanu e-mail adresu").isEmail(), //Zahtijeva se oblik e-maila
-    check("password", "Polje za lozinku je prazno").exists() //pass je upisan
+    check('email', 'Molimo unesite valjanu e-mail adresu').isEmail(), //Zahtijeva se oblik e-maila
+    check('password', 'Polje za lozinku je prazno').exists() //pass je upisan
   ],
   async (req, res) => {
     const errors = validationResult(req); //errori
@@ -40,7 +45,14 @@ router.post(
       if (!user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: "Vaši podaci nisu točni" }] });
+          .json({ errors: [{ msg: 'Vaši podaci nisu točni' }] });
+      }
+      //Provjeriti da li je user potvrdio e-mail
+
+      if (!user.confirmed) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Niste potvrdili vas e-mail' }] });
       }
 
       //Da li su sifre- koju je unio user i od user koji se poslao tokenom jednake
@@ -49,7 +61,7 @@ router.post(
       if (!isMatch) {
         return res
           .status(400)
-          .json({ errors: [{ msg: "Vaši podatci nisu točni" }] });
+          .json({ errors: [{ msg: 'Vaši podatci nisu točni' }] });
       }
 
       //Payload sa userovim id-om
@@ -61,7 +73,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get("jwtSecret"), //secret
+        config.get('jwtSecret'), //secret
         { expiresIn: 360000 }, //optional expiracija
         (err, token) => {
           if (err) throw err;
@@ -70,9 +82,24 @@ router.post(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).send('Server error');
     }
   }
 );
+
+//E-mail verifikacija
+router.get('/confirmation/:token', async (req, res) => {
+  try {
+    const {
+      user: { id }
+    } = jwt.verify(req.params.token, config.get('jwtSecret'));
+
+    await User.findOneAndUpdate({ _id: id }, { confirmed: true });
+  } catch (e) {
+    res.send('error');
+  }
+
+  return res.redirect('http://localhost:3000/login');
+});
 
 module.exports = router;
