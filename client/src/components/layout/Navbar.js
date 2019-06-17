@@ -57,16 +57,28 @@ const Navbar = ({ auth: { user, isAuthenticated, loading }, logout }) => {
   const guestLinks = (
     <ul>
       <li>
-        <Link to='/posts'>Glavni feed</Link>
+        <Link to='/posts'>
+          <i className='fawes fas fa-newspaper' />{' '}
+          <span className='hide-sm'>Glavni feed</span>
+        </Link>
       </li>
       <li>
-        <Link to='/profiles'>Korisnici</Link>
+        <Link to='/profiles'>
+          <i className='fawes fas fa-users' />{' '}
+          <span className='hide-sm'>Korisnici</span>
+        </Link>
       </li>
       <li>
-        <Link to='/register'>Registriraj se</Link>
+        <Link to='/register'>
+          <i className='fawes fas fa-user-plus' />{' '}
+          <span className='hide-sm'>Registriraj se</span>
+        </Link>
       </li>
       <li>
-        <Link to='/login'>Prijavi se</Link>
+        <Link to='/login'>
+          <i className='fawes fas fa-user' />{' '}
+          <span className='hide-sm'>Prijavi se</span>
+        </Link>
       </li>
     </ul>
   );

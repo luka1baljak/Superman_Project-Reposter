@@ -21,6 +21,7 @@
     "react-scroll-up-button": "^1.6.4",
     "react-search": "^2.1.0",
     "react-search-field": "^1.0.0",
+    "react-transition-group": "2.2.0",
     "react-youtube": "^7.9.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",

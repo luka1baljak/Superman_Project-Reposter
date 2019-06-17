@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
 
 /* Global Styles */
 :root {
@@ -17,7 +17,7 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   background-color: #fff;
@@ -100,7 +100,7 @@ img {
   display: block;
   padding: 0.4rem;
   font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 .sender {
   font-weight: bold;
@@ -108,9 +108,12 @@ img {
 
 .chat {
   font-size: 1.15em;
+  float: center;
+  background-color: rgb(232, 250, 250);
 }
 .timestamp {
   font-size: 0.75em;
+  float: right;
 }
 .menu {
   padding: 12.5px 25px 12.5px 25px;
@@ -367,10 +370,10 @@ img {
   border-color: #723dbe;
 }
 
-.form input[type='text'],
-.form input[type='email'],
-.form input[type='password'],
-.form input[type='date'],
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"],
+.form input[type="date"],
 .form select,
 .form textarea {
   display: block;
@@ -378,10 +381,10 @@ img {
   padding: 0.4rem;
   font-size: 1.15rem;
   border: 1px solid #ccc;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
-.form input[type='submit'],
+.form input[type="submit"],
 button {
   font: inherit;
 }
@@ -457,7 +460,7 @@ button {
 
 .landing {
   position: relative;
-  background: url('./img/showcase.jpg') no-repeat center center/cover;
+  background: url("./img/showcase.jpg") no-repeat center center/cover;
   height: 100vh;
   overflow: auto;
 }
@@ -492,10 +495,10 @@ button {
 .profile-grid {
   display: grid;
   grid-template-areas:
-    'top top'
-    'about about'
-    'exp edu'
-    'github github';
+    "top top"
+    "about about"
+    "exp edu"
+    "github github";
   grid-gap: 1rem;
 }
 
@@ -645,17 +648,17 @@ button {
   width: 50%;
 }
 
-.search input[type='search'] {
+.search input[type="search"] {
   border: 0px;
   padding: 10px 10px;
   width: 88%;
 }
 
-.search input[type='search']:focus {
+.search input[type="search"]:focus {
   outline: 0;
 }
 
-.search input[type='submit'] {
+.search input[type="submit"] {
   border: 0px;
   background: none;
   background-color: #723dbe;
@@ -686,6 +689,9 @@ button {
 @media (max-width: 700px) {
   .container {
     margin-top: 8rem;
+  }
+  .onSmall {
+    font-size: 0.7em;
   }
 
   .hide-sm {
@@ -744,11 +750,11 @@ button {
 
   .profile-grid {
     grid-template-areas:
-      'top'
-      'about'
-      'exp'
-      'edu'
-      'github';
+      "top"
+      "about"
+      "exp"
+      "edu"
+      "github";
   }
 
   .profile-about .skills {
@@ -777,18 +783,18 @@ button {
     width: 50%;
   }
 
-  .search input[type='search'] {
+  .search input[type="search"] {
     border: 0px;
     padding: 10px 10px;
     font-size: 12px;
     width: 70%;
   }
 
-  .search input[type='search']:focus {
+  .search input[type="search"]:focus {
     outline: 0;
   }
 
-  .search input[type='submit'] {
+  .search input[type="submit"] {
     border: 0px;
     font-size: 12px;
     background: none;

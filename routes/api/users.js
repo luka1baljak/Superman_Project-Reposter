@@ -1,28 +1,28 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { check, validationResult } = require('express-validator/check');
-const gravatar = require('gravatar');
-const User = require('../../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const config = require('config');
-const multer = require('multer');
-const auth = require('../../middleware/auth');
-const nodemailer = require('nodemailer');
+const { check, validationResult } = require("express-validator/check");
+const gravatar = require("gravatar");
+const User = require("../../models/User");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const config = require("config");
+const multer = require("multer");
+const auth = require("../../middleware/auth");
+const nodemailer = require("nodemailer");
 //Transporter za gmail
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const transporter = nodemailer.createTransport({
-  service: 'Gmail',
+  service: "Gmail",
   auth: {
-    user: 'teamsupermanreposter',
-    pass: 'trr2sgsup'
+    user: "teamsupermanreposter",
+    pass: "trr2sgsup"
   }
 });
 
 //Profile picture prilikom registracije
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, './uploads/');
+    cb(null, "./uploads/");
   },
   filename: function(req, file, cb) {
     cb(null, Date.now() + file.originalname);
@@ -38,14 +38,14 @@ const upload = multer({
 
 //POST api/users route - registriranje usera(stvaranje)
 router.post(
-  '/',
+  "/",
   [
-    upload.single('avatar'), //Profile picture
-    check('name', 'Morate ispuniti polje za Ime') //Ime je potrebno
+    upload.single("avatar"), //Profile picture
+    check("name", "Morate ispuniti polje za Ime") //Ime je potrebno
       .not()
       .isEmpty(),
-    check('email', 'Molimo unesite valjanu e-mail adresu').isEmail(), //Email je oblik email
-    check('password', 'Lozinka mora biti imati barem 4 znaka').isLength({
+    check("email", "Molimo unesite valjanu e-mail adresu").isEmail(), //Email je oblik email
+    check("password", "Lozinka mora biti imati barem 4 znaka").isLength({
       min: 4
     }) //pass ima barem 4 znaka
   ],
@@ -63,7 +63,7 @@ router.post(
       //Ako postoji vec, izbaci error
       if (user) {
         return res.status(400).json({
-          errors: [{ msg: 'User sa tom e-mail adresom već postoji' }]
+          errors: [{ msg: "User sa tom e-mail adresom već postoji" }]
         });
       }
       let avatar;
@@ -74,9 +74,9 @@ router.post(
         //Ako profile picture nije odabran povuci sliku iz gravatara
         //Gravatar image moze postojati ili biti default
         avatar = gravatar.url(email, {
-          s: '200', //Size
-          r: 'pg', //Rating
-          d: 'mm' //Default
+          s: "200", //Size
+          r: "pg", //Rating
+          d: "mm" //Default
         });
       }
 
@@ -104,7 +104,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'), //secret
+        config.get("jwtSecret"), //secret
         { expiresIn: 3600 }, //optional expiracija
         (err, token) => {
           if (err) throw err;
@@ -112,7 +112,7 @@ router.post(
           transporter.sendMail(
             {
               to: email,
-              subject: 'Potvrđivanje emaila',
+              subject: "Potvrđivanje emaila",
               html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`
             },
             (err, info) => {
@@ -125,18 +125,18 @@ router.post(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server error');
+      res.status(500).send("Server error");
     }
   }
 );
 //Promjena userovih podataka
 //Put request to api/users
 router.put(
-  '/',
+  "/",
   [
-    upload.single('avatar'),
+    upload.single("avatar"),
     auth,
-    check('name', 'Morate ispuniti polje za Ime') //Ime je potrebno
+    check("name", "Morate ispuniti polje za Ime") //Ime je potrebno
       .not()
       .isEmpty()
   ],
@@ -186,7 +186,7 @@ router.put(
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'), //secret
+        config.get("jwtSecret"), //secret
         { expiresIn: 360000 }, //optional expiracija
         (err, token) => {
           if (err) throw err;
@@ -195,7 +195,7 @@ router.put(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server error');
+      res.status(500).send("Server error");
     }
   }
 );
