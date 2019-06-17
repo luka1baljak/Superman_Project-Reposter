@@ -30,6 +30,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const guestLinks = (
     <ul>
       <li>
+<<<<<<< Updated upstream
         <Link to="/posts">Main feed</Link>
       </li>
       <li>
@@ -40,6 +41,30 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       </li>
       <li>
         <Link to="/login">Login</Link>
+=======
+        <Link to='/posts'>
+          <i className='fawes fas fa-newspaper' />{' '}
+          <span className='hide-sm'>Glavni feed</span>
+        </Link>
+      </li>
+      <li>
+        <Link to='/profiles'>
+          <i className='fawes fas fa-users' />{' '}
+          <span className='hide-sm'>Korisnici</span>
+        </Link>
+      </li>
+      <li>
+        <Link to='/register'>
+          <i className='fawes fas fa-user-plus' />{' '}
+          <span className='hide-sm'>Registriraj se</span>
+        </Link>
+      </li>
+      <li>
+        <Link to='/login'>
+          <i className='fawes fas fa-user' />{' '}
+          <span className='hide-sm'>Prijavi se</span>
+        </Link>
+>>>>>>> Stashed changes
       </li>
     </ul>
   );

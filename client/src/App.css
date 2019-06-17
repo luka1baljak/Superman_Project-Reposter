@@ -1,3 +1,8 @@
+<<<<<<< Updated upstream
+=======
+@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
+
+>>>>>>> Stashed changes
 /* Global Styles */
 
 /* Font */
@@ -60,6 +65,110 @@ img {
   line-height: 1.2;
   margin-bottom: 1rem;
 }
+<<<<<<< Updated upstream
+=======
+/* Update*/
+/* Chat */
+.center {
+  display: table;
+  margin: auto;
+}
+.marginForAll {
+  margin-top: 25px;
+}
+.marginForButton {
+  margin-left: 25px;
+}
+.wrapper,
+.loginform {
+  margin: 0 auto;
+  padding-bottom: 25px;
+  background: #ebf4fb;
+  height: 80vh;
+  width: 100%;
+  border: 1px solid #acd8f0;
+}
+.chatbox {
+  text-align: left;
+  margin: 0 auto;
+  margin-bottom: 25px;
+  padding: 10px;
+  background: #fff;
+  height: 60vh;
+  width: 95%;
+  border: 1px solid #acd8f0;
+  overflow: auto;
+}
+
+.usermsg {
+  margin: 0px 25px;
+  padding-left: 10px;
+  width: 50%;
+  border: 1px solid #acd8f0;
+  display: block;
+  padding: 0.4rem;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
+}
+.sender {
+  font-weight: bold;
+}
+
+.chat {
+  font-size: 1.15em;
+  float: center;
+  background-color: rgb(232, 250, 250);
+}
+.timestamp {
+  font-size: 0.75em;
+  float: right;
+}
+.menu {
+  padding: 12.5px 25px 12.5px 25px;
+}
+
+.welcome {
+  float: left;
+}
+
+.logout {
+  float: right;
+}
+
+.msgln {
+  margin: 0 0 2px 0;
+}
+/*Update*/
+.imglink-size {
+  height: 500px;
+  width: 100%;
+}
+.fawes {
+  font-size: 18px;
+}
+.mala-slika {
+  height: 18px;
+  width: 18px;
+}
+/* Dizajn za izbor slike i file input */
+.med-slika {
+  height: 72px;
+  width: 72px;
+}
+.izbor-slike {
+  margin-bottom: 2%;
+}
+.boja-prsta {
+  color: lightskyblue;
+}
+.sz {
+  height: 72px;
+  width: 72px;
+}
+.upute {
+  color: #c4c4c4;
+}
+>>>>>>> Stashed changes
 
 .lead {
   font-size: 1.5rem;
@@ -250,6 +359,17 @@ img {
   color: #888;
 }
 
+<<<<<<< Updated upstream
+=======
+.form-control {
+  border-radius: 25px 50px;
+}
+
+.form-control:focus {
+  border-color: #723dbe;
+}
+
+>>>>>>> Stashed changes
 .form input[type="text"],
 .form input[type="email"],
 .form input[type="password"],
@@ -261,6 +381,10 @@ img {
   padding: 0.4rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
+<<<<<<< Updated upstream
+=======
+  font-family: "Poppins", sans-serif;
+>>>>>>> Stashed changes
 }
 
 .form input[type="submit"],
@@ -492,11 +616,52 @@ button {
   font-size: 0.8rem;
   margin-bottom: 0.5rem;
 }
+<<<<<<< Updated upstream
+=======
+/* Search bar */
+
+.search {
+  border: 2px solid #723dbe;
+  overflow: auto;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  width: 50%;
+}
+
+.search input[type="search"] {
+  border: 0px;
+  padding: 10px 10px;
+  width: 88%;
+}
+
+.search input[type="search"]:focus {
+  outline: 0;
+}
+
+.search input[type="submit"] {
+  border: 0px;
+  background: none;
+  background-color: #723dbe;
+  color: #fff;
+  float: right;
+  width: 12%;
+  padding: 10px;
+  -moz-border-radius-top-right: 5px;
+  -webkit-border-radius-top-right: 5px;
+  -moz-border-radius-bottom-right: 5px;
+  -webkit-border-radius-bottom-right: 5px;
+  cursor: pointer;
+}
+>>>>>>> Stashed changes
 
 /* Mobile Styles */
 @media (max-width: 700px) {
   .container {
     margin-top: 8rem;
+  }
+  .onSmall {
+    font-size: 0.7em;
   }
 
   .hide-sm {
@@ -579,4 +744,59 @@ button {
   .post button {
     padding: 0.3rem 0.4rem;
   }
+<<<<<<< Updated upstream
+=======
+  .search {
+    border: 2px solid #723dbe;
+    overflow: auto;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    width: 50%;
+  }
+
+  .search input[type="search"] {
+    border: 0px;
+    padding: 10px 10px;
+    font-size: 12px;
+    width: 70%;
+  }
+
+  .search input[type="search"]:focus {
+    outline: 0;
+  }
+
+  .search input[type="submit"] {
+    border: 0px;
+    font-size: 12px;
+    background: none;
+    background-color: #723dbe;
+    color: #fff;
+    float: right;
+    width: 30%;
+    padding: 10px;
+    -moz-border-radius-top-right: 5px;
+    -webkit-border-radius-top-right: 5px;
+    -moz-border-radius-bottom-right: 5px;
+    -webkit-border-radius-bottom-right: 5px;
+    cursor: pointer;
+  }
+}
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+}
+
+.googlemap {
+  border: 0;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+>>>>>>> Stashed changes
 }
