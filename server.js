@@ -41,7 +41,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+app.use(
+  cors({
+    credentials: true,
+    origin: 'https://stormy-plains-14937.herokuapp.com'
+  })
+);
 //Dohvaća sve poruke
 app.get('/api/message', (req, res) => {
   Message.find({}).exec((err, messages) => {

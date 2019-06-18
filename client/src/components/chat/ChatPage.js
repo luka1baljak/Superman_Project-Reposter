@@ -9,7 +9,7 @@ class ChatPage extends Component {
     super(props);
     this.state = {
       messages: [],
-      socket: openSocket('http://localhost:5000/chatty')
+      socket: openSocket('https://stormy-plains-14937.herokuapp.com/chatty')
     };
 
     this.state.socket.on('new-message', message => {
@@ -23,7 +23,7 @@ class ChatPage extends Component {
 
   componentDidMount() {
     this._isMounted = true;
-    fetch('http://localhost:5000/api/message', {
+    fetch('https://stormy-plains-14937.herokuapp.com/api/message', {
       method: 'GET'
     })
       .then(res => {
@@ -71,7 +71,7 @@ class ChatPage extends Component {
       avatar: this.props.avatar
     };
 
-    fetch('http://localhost:5000/api/message', {
+    fetch('https://stormy-plains-14937.herokuapp.com/api/message', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
