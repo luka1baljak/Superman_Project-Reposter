@@ -99,7 +99,7 @@ router.get('/confirmation/:token', async (req, res) => {
     res.send('error');
   }
 
-  return res.redirect('http://localhost:3000/login');
+  return res.redirect('https://stormy-plains-14937.herokuapp.com/login');
 });
 
 module.exports = router;
